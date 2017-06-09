@@ -17,16 +17,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>com.visualengin.pushtest</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>pushtestUrlScheme</string>
-			</array>
-		</dict>
-	</array>
+	<array/>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>

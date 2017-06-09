@@ -20,29 +20,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        
+        //This is used to check if the app has woken up from background mode when receiving the notification. If it has, debugging, we will be able to access the userDefaults and look for the new parameter with key "key"
         let userDefaults = UserDefaults(suiteName: "group.com.pushNotifications")
         if let enabledNotif = userDefaults?.object(forKey: "key") {
             print(enabledNotif)
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { 
         
-        do {
-            if let bundle = Bundle.main.path(forResource: "track37", ofType: "mp3"){
-                let alertSound = URL(fileURLWithPath: bundle)
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-                try AVAudioSession.sharedInstance().setActive(true)
-                try self.musicPlayer = AVAudioPlayer(contentsOf: alertSound)
-                self.musicPlayer.numberOfLoops = -1
-                self.musicPlayer.prepareToPlay()
-                self.musicPlayer.play()
+        //Audio file remains active when entering background mode
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            do {
+                if let bundle = Bundle.main.path(forResource: "track37", ofType: "mp3"){
+                    let alertSound = URL(fileURLWithPath: bundle)
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                    try AVAudioSession.sharedInstance().setActive(true)
+                    try self.musicPlayer = AVAudioPlayer(contentsOf: alertSound)
+                    self.musicPlayer.numberOfLoops = -1
+                    self.musicPlayer.prepareToPlay()
+                    self.musicPlayer.play()
+                }
+            } catch {
+                print(error)
             }
-        } catch {
-            print(error)
         }
-        }
-        
-        
         
         let config = UAConfig.default()
         config.productionAppKey = "4sWL34__SUCBAa1dZqinIw"
@@ -51,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         config.developmentAppSecret = "Hx4Yq0iXQyO7TGetW-Np1w"
         
         UAirship.takeOff(config)
-    
+        
         
         UAirship.push().userPushNotificationsEnabled = true
         UAirship.push().defaultPresentationOptions = [.alert, .badge, .sound]
@@ -93,20 +94,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         userDefaults?.synchronize()
         
         self.musicPlayer.stop()
-        
-//                do {
-//                    if let bundle = Bundle.main.path(forResource: "track37", ofType: "mp3"){
-//                        let alertSound = URL(fileURLWithPath: bundle)
-//                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-//                        try AVAudioSession.sharedInstance().setActive(true)
-//                        try musicPlayer = AVAudioPlayer(contentsOf: alertSound)
-//                        musicPlayer.numberOfLoops = -1
-//                        musicPlayer.prepareToPlay()
-//                        musicPlayer.play()
-//                    }
-//                } catch {
-//                    print(error)
-//                }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -118,10 +105,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
+        
+        //This is used to check if the app has woken up from background mode when receiving the notification. If it has, debugging, we will be able to access the userDefaults and look for the new parameter with key "key"
         let userDefaults = UserDefaults(suiteName: "group.com.pushNotifications")
-        var str = userDefaults?.object(forKey: "keyKilledApp")
+        var str = userDefaults?.object(forKey: "key")
         if str == nil {
-            str = "didReceived when the App was killed"
+            str = "didReceived"
         }
         else {
             str = "notReceived"

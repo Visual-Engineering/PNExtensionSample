@@ -31,7 +31,7 @@ class NotificationService: UAMediaAttachmentExtension {
         
         if let bestAttemptContent = bestAttemptContent, switchButtonOn == true {
             // Modify the notification content here...
-            bestAttemptContent.title = "Holaaaaa m'he modificat 🖕"
+            bestAttemptContent.title = "I have been modified ✌️"
             self.contentHandler!(self.bestAttemptContent!)
         } else {
             self.contentHandler!(request.content)
